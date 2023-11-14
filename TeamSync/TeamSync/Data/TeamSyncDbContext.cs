@@ -1,8 +1,14 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace TeamSync.Data
 {
-    public class DbContext : IdentityDbContext
+    public class TeamSyncDbContext : DbContext
     {
+        public TeamSyncDbContext(DbContextOptions<TeamSyncDbContext> options)
+           : base(options)
+        {
+        }
+
+
     }
 }

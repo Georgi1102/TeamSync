@@ -1,6 +1,6 @@
 ﻿namespace TeamSync.Data.Models
 {
-    public class Task
+    public class Assignments
     {
     }
 }

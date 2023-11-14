@@ -1,8 +1,6 @@
 ﻿namespace TeamSync.Data.Models
 {
-    public class Department : BaseEntity
+    public class Department
     {
-        public string name { get; set; }
-        List<long> employeeIds { get; set; }
     }
 }
