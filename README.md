@@ -1,0 +1,2 @@
+# TeamSync
+ Manager for companies
