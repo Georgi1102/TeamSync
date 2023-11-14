@@ -9,10 +9,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddAuthentication(
+        CertificateAuthenticationDefaults.AuthenticationScheme)
+    .AddCertificate();
 builder.Services.AddDbContext<TeamSyncDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("TeamSyncDbContext") ??
-    throw new InvalidOperationException("Connection string 'ProductAPIContext' not found.")));
+    throw new InvalidOperationException("Connection string 'TeamSyncDbContext' not found.")));
 
 var app = builder.Build();
 
@@ -26,7 +28,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

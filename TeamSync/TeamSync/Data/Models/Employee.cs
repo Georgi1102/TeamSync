@@ -1,10 +1,10 @@
 ﻿namespace TeamSync.Data.Models
 {
-    public class Employee
+    public class Employee : BaseEntity
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public long DepartmentId { get; set; }
-        public List<long> Assignments { get; set; }
+        public int DepartmentId { get; set; } // Ensure consistent naming with the foreign key property
+        public List<EmployeeAssignment> EmployeeAssignments { get; set; }
     }
 }
