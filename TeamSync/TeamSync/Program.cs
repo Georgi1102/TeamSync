@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.EntityFrameworkCore;
+using TeamSync.Controllers;
 using TeamSync.Data;
+using TeamSync.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +16,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<TeamSyncDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("TeamSyncDbContext") ??
     throw new InvalidOperationException("Connection string 'TeamSyncDbContext' not found.")));
+
+// Add application part for controllers
+builder.Services.AddControllers()
+    .AddApplicationPart(typeof(CompanyController).Assembly)
+    .AddControllersAsServices();
+
+builder.Services.AddScoped<CompanyService>();
 
 var app = builder.Build();
 
