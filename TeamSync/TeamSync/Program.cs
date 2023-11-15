@@ -21,8 +21,12 @@ builder.Services.AddDbContext<TeamSyncDbContext>(options =>
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(CompanyController).Assembly)
     .AddControllersAsServices();
+builder.Services.AddControllers()
+    .AddApplicationPart(typeof(EmployeeController).Assembly)
+    .AddControllersAsServices();
 
 builder.Services.AddScoped<CompanyService>();
+builder.Services.AddScoped<EmployeeService>();
 
 var app = builder.Build();
 
