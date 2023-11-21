@@ -24,9 +24,13 @@ builder.Services.AddControllers()
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(EmployeeController).Assembly)
     .AddControllersAsServices();
+builder.Services.AddControllers()
+    .AddApplicationPart(typeof(DepartmentController).Assembly)
+    .AddControllersAsServices();
 
 builder.Services.AddScoped<CompanyService>();
 builder.Services.AddScoped<EmployeeService>();
+builder.Services.AddScoped<DepartmentService>();
 
 var app = builder.Build();
 
