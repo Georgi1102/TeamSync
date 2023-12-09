@@ -11,24 +11,20 @@ namespace TeamSync.Data
         }
 
         public DbSet<Employee>? Employees { get; set; }
-        public DbSet<Assignment>? Assignments { get; set; }
         public DbSet<Company>? Companies { get; set;}
         public DbSet<Department>? Departments { get; set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<EmployeeAssignment>()
-                .HasKey(ea => new { ea.EmployeeId, ea.AssignmentId });
+            modelBuilder.Entity<Company>()
+                .HasMany(c => c.Departments)
+                .WithOne(d => d.Company)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<EmployeeAssignment>()
-                .HasOne(ea => ea.Employee)
-                .WithMany(e => e.EmployeeAssignments)
-                .HasForeignKey(ea => ea.EmployeeId);
-
-            modelBuilder.Entity<EmployeeAssignment>()
-                .HasOne(ea => ea.Assignment)
-                .WithMany(a => a.EmployeeAssignments)
-                .HasForeignKey(ea => ea.AssignmentId);
+            modelBuilder.Entity<Department>()
+                .HasMany(d => d.Employees)
+                .WithOne(e => e.Department)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

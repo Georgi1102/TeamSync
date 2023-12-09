@@ -4,7 +4,12 @@
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int DepartmentId { get; set; } // Ensure consistent naming with the foreign key property
-        public List<EmployeeAssignment> EmployeeAssignments { get; set; }
+
+        // Foreign key for the relationship with Department
+        public int DepartmentId { get; set; }
+
+        // Navigation property for the relationship with Department
+        public Department Department { get; set; }
+
     }
 }

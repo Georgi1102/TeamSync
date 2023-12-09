@@ -12,12 +12,56 @@ namespace TeamSync.Service
         {
             this.dbContext = dbContext;
         }
+
         public async Task<IEnumerable<Employee>> GetAllEmployees() 
         {
-            var employees = await dbContext.Employees
-                    .Include(c => c.EmployeeAssignments).ToListAsync();
+            var employees = await dbContext.Employees.ToListAsync();
             return employees;
         }
+
+        public async Task<Employee> GetById(int employeeId)
+        {
+            try
+            {
+                var employee = await dbContext.Employees
+                    .FirstOrDefaultAsync(c => c.Id == employeeId);
+
+                return employee;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task CreateEmployeeAsync(Employee newEmployee)
+        {
+            dbContext.Employees.Add(newEmployee);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Employee> GetEmployeeByIdAsync(int employeeId)
+        {
+            return await dbContext.Employees.FindAsync(employeeId);
+        }
+
+        public async Task UpdateEmployeeAsync(Employee updatedEmployee)
+        {
+            dbContext.Entry(updatedEmployee).State = EntityState.Modified;
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteEmployeeAsync(int employeeId)
+        {
+            var employee = await dbContext.Employees.FindAsync(employeeId);
+
+            if (employee != null)
+            {
+                dbContext.Employees.Remove(employee);
+                await dbContext.SaveChangesAsync();
+            }
+        }
+
 
     }
 }

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 using TeamSync.Controllers;
 using TeamSync.Data;
 using TeamSync.Service;
@@ -24,9 +25,18 @@ builder.Services.AddControllers()
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(EmployeeController).Assembly)
     .AddControllersAsServices();
+builder.Services.AddControllers()
+    .AddApplicationPart(typeof(DepartmentController).Assembly)
+    .AddControllersAsServices();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+    options.JsonSerializerOptions.MaxDepth = 32;
+});
 
 builder.Services.AddScoped<CompanyService>();
 builder.Services.AddScoped<EmployeeService>();
+builder.Services.AddScoped<DepartmentService>();
 
 var app = builder.Build();
 

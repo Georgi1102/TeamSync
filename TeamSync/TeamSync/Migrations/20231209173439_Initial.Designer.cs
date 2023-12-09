@@ -12,7 +12,7 @@ using TeamSync.Data;
 namespace TeamSync.Migrations
 {
     [DbContext(typeof(TeamSyncDbContext))]
-    [Migration("20231114201419_Initial")]
+    [Migration("20231209173439_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -24,27 +24,6 @@ namespace TeamSync.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("TeamSync.Data.Models.Assignment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Assignments");
-                });
 
             modelBuilder.Entity("TeamSync.Data.Models.Company", b =>
                 {
@@ -71,7 +50,7 @@ namespace TeamSync.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CompanyId")
+                    b.Property<int>("CompanyId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -116,29 +95,15 @@ namespace TeamSync.Migrations
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("TeamSync.Data.Models.EmployeeAssignment", b =>
-                {
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AssignmentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.HasKey("EmployeeId", "AssignmentId");
-
-                    b.HasIndex("AssignmentId");
-
-                    b.ToTable("EmployeeAssignment");
-                });
-
             modelBuilder.Entity("TeamSync.Data.Models.Department", b =>
                 {
-                    b.HasOne("TeamSync.Data.Models.Company", null)
+                    b.HasOne("TeamSync.Data.Models.Company", "Company")
                         .WithMany("Departments")
-                        .HasForeignKey("CompanyId");
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
                 });
 
             modelBuilder.Entity("TeamSync.Data.Models.Employee", b =>
@@ -147,35 +112,13 @@ namespace TeamSync.Migrations
                         .WithMany("Employees")
                         .HasForeignKey("CompanyId");
 
-                    b.HasOne("TeamSync.Data.Models.Department", null)
+                    b.HasOne("TeamSync.Data.Models.Department", "Department")
                         .WithMany("Employees")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("TeamSync.Data.Models.EmployeeAssignment", b =>
-                {
-                    b.HasOne("TeamSync.Data.Models.Assignment", "Assignment")
-                        .WithMany("EmployeeAssignments")
-                        .HasForeignKey("AssignmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TeamSync.Data.Models.Employee", "Employee")
-                        .WithMany("EmployeeAssignments")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Assignment");
-
-                    b.Navigation("Employee");
-                });
-
-            modelBuilder.Entity("TeamSync.Data.Models.Assignment", b =>
-                {
-                    b.Navigation("EmployeeAssignments");
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("TeamSync.Data.Models.Company", b =>
@@ -188,11 +131,6 @@ namespace TeamSync.Migrations
             modelBuilder.Entity("TeamSync.Data.Models.Department", b =>
                 {
                     b.Navigation("Employees");
-                });
-
-            modelBuilder.Entity("TeamSync.Data.Models.Employee", b =>
-                {
-                    b.Navigation("EmployeeAssignments");
                 });
 #pragma warning restore 612, 618
         }

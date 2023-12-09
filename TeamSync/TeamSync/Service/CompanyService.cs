@@ -15,16 +15,44 @@ namespace TeamSync.Service
             this.dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<Company>> GetAll()
+        public async Task<IEnumerable<Company>> GetAllCompaniesAsync()
         {
-            var companies = await dbContext.Companies
-                  .Include(c => c.Employees)
-                      .ThenInclude(e => e.EmployeeAssignments)
-                  .Include(c => c.Departments)
-                      .ThenInclude(d => d.Employees)
-                  .ToListAsync();
+            return await dbContext.Companies
+                .Include(c => c.Employees)
+                .Include(c => c.Departments)
+                .ToListAsync();
+        }
 
-            return companies;
+        public async Task CreateCompanyAsync(Company newCompany)
+        {
+            dbContext.Companies.Add(newCompany);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Company> GetCompanyByIdAsync(int companyId)
+        {
+            return await dbContext.Companies
+                .Include(c => c.Employees)
+                .Include(c => c.Departments)
+                .FirstOrDefaultAsync(c => c.Id == companyId);
+        }
+
+        public async Task UpdateCompanyAsync(Company updatedCompany)
+        {
+            dbContext.Entry(updatedCompany).State = EntityState.Modified;
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteCompanyAsync(int companyId)
+        {
+            var company = await dbContext.Companies.FindAsync(companyId);
+
+            if (company != null)
+            {
+                dbContext.Companies.Remove(company);
+                await dbContext.SaveChangesAsync();
+            }
         }
     }
 }
+
