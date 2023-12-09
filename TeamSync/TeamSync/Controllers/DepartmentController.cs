@@ -106,6 +106,7 @@ namespace TeamSync.Controllers
                 await _departmentService.DeleteDepartmentAsync(departmentId);
                 return NoContent();
             }
+           
             catch (Exception ex)
             {
                 return StatusCode(500, "Internal server error");

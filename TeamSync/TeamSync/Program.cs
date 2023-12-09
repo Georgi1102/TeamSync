@@ -34,6 +34,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.MaxDepth = 32;
 });
 
+
 builder.Services.AddScoped<CompanyService>();
 builder.Services.AddScoped<EmployeeService>();
 builder.Services.AddScoped<DepartmentService>();

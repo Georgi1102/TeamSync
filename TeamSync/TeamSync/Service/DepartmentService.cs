@@ -1,13 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TeamSync.Data.Models;
 using TeamSync.Data;
+using TeamSync.Data;
+using TeamSync.Data.Models;
 
 namespace TeamSync.Service
 {
     public class DepartmentService
     {
         private readonly TeamSyncDbContext dbContext;
-
+        private readonly Department department;
         public DepartmentService(TeamSyncDbContext dbContext)
         {
             this.dbContext = dbContext;
