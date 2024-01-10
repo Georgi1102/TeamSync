@@ -20,12 +20,11 @@ const HomePage = () => {
     fetchCompanies();
   }, []);
        
-console.log(companies);
   return (
     <div>
       <h2>Companies:</h2>
       {companies.map((company) => (
-        <CompanyCard key={company.id} name={company.name} />
+        <CompanyCard id={company.id} name={company.name} />
       ))}
     </div>
   );

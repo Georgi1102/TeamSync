@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const CompanyCard = ({ id, name }) => {
   const { setCompanies } = useContext(CompaniesContext);
   const navigate = useNavigate();
-
+  console.log(id);
   const removeCompanyHandler = () => {
     setCompanies((prevCompanies) =>
       prevCompanies.filter((company) => company.id !== id)

@@ -19,7 +19,6 @@ const CompanyDetailPage = () => {
     );
     if (getCompany) {
       setCompany(getCompany);
-      setSelectedCompanyId(getCompany.id);
     } else {
       setShowModal(true);
     }
