@@ -3,7 +3,7 @@ import classes from './CompanyCard.module.css';
 import CompaniesContext from '../../store/CompaniesContext/CompaniesContext';
 import { useNavigate } from 'react-router-dom';
 
-const CompanyCard = ({ id, name, description }) => {
+const CompanyCard = ({ id, name }) => {
   const { setCompanies } = useContext(CompaniesContext);
   const navigate = useNavigate();
 
@@ -13,7 +13,7 @@ const CompanyCard = ({ id, name, description }) => {
     );
   };
 
-  const onClickHandler = (e) => {
+  const onClickHandler = () => {
     navigate(`/${id}`);
   };
 
@@ -24,7 +24,6 @@ const CompanyCard = ({ id, name, description }) => {
       </div>
       <div className={classes.card} onClick={onClickHandler}>
         <h2 className={classes.title}>{name}</h2>
-        <p className={classes.description}>{description.slice(0, 350)}...</p>
       </div>
     </div>
   );
