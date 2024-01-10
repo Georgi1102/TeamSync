@@ -28,6 +28,10 @@ const CompanyDetailPage = () => {
     // Navigate to the "AddDepartmentPage" (you can change the path as needed)
     navigate('/adddepartmentpage');
   };
+  const handleDepartmentClick = (departmentId) => {
+    // Navigate to the "Employees" page with the selected departmentId
+    navigate(`/${params.companyId}/${departmentId}`);
+  };
   return (
     <>
       {company ? (
@@ -50,13 +54,12 @@ const CompanyDetailPage = () => {
           <div className={classes['departments__box']}>
             <h2>Departments:</h2>
             <ul>
-              {departments
-                .filter((dept) => dept.companyId === company.id)
-                .map((department) => (
-                  <li key={department.id}>
-                    {department.name} - {department.description}
-                  </li>
-                ))}
+            {departments.map((department) => (
+              // Wrap each department in a clickable link
+              <li key={department.id} onClick={() => handleDepartmentClick(department.id)}>
+                {department.name} - {department.description}
+              </li>
+            ))}
             </ul>
           </div>
         </div>

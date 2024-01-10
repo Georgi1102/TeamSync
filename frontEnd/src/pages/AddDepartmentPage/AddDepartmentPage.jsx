@@ -13,7 +13,6 @@ const AddDepartmentPage = () => {
   const { setDepartments } = useContext(DepartmentsContext);
 
   const navigate = useNavigate();
-  const { companyId } = useParams();
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
