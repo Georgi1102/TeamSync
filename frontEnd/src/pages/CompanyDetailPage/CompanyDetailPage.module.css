@@ -3,6 +3,7 @@
   height: auto;
   margin: 0 auto;
   padding: 4rem;
+  
 }
 
 .title__box {
@@ -26,4 +27,12 @@
 
 .description {
   font-size: 3.6rem;
+}
+.add_department_button{
+  color:#1e1e1e ;
+  background-color: #3d9970;
+  border-color: #3d9970;
+  width: 15%;
+  height: 5rem;
+  
 }

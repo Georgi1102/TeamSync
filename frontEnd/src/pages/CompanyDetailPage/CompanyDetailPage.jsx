@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from 'react';
 import CompaniesContext from '../../store/CompaniesContext/CompaniesContext';
 import InfoModal from '../../components/modals/InfoModal/InfoModal';
 
+
 const CompanyDetailPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [company, setCompany] = useState();
@@ -22,16 +23,27 @@ const CompanyDetailPage = () => {
       setShowModal(true);
     }
   }, []);
-
+  const handleAddDepartmentClick = () => {
+    // Navigate to the "AddDepartmentPage" (you can change the path as needed)
+    navigate('/adddepartmentpage');
+  };
   return (
     <>
       {company ? (
         <div className={classes.container}>
           <div className={classes['title__box']}>
-            <h1 className={classes['title']}>{company.name}</h1>
+            <h1 className={classes['title']}>Company name: {company.name}</h1>
           </div>
           <div className={classes['description__box']}>
-            <p className={classes['description']}>{company.description}</p>
+          <div className={classes['description__box']}>
+            {/* Attach the click handler to the button */}
+            <button
+              className={classes['add_department_button']}
+              onClick={handleAddDepartmentClick}
+            >
+              Add department
+            </button>
+          </div>
           </div>
         </div>
       ) : (
