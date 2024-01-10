@@ -8,9 +8,11 @@ import { DepartmentsContextProvider } from './store/CompaniesContext/Departments
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
+    <DepartmentsContextProvider>
       <CompaniesContextProvider>
         <App />
       </CompaniesContextProvider>
+      </DepartmentsContextProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

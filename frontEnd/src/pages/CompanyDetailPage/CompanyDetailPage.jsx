@@ -3,13 +3,13 @@ import classes from './CompanyDetailPage.module.css';
 import { useContext, useEffect, useState } from 'react';
 import CompaniesContext from '../../store/CompaniesContext/CompaniesContext';
 import InfoModal from '../../components/modals/InfoModal/InfoModal';
-
+import DepartmentsContext from '../../store/CompaniesContext/DepartmentsContext';  // Correct the import path
 
 const CompanyDetailPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [company, setCompany] = useState();
-  const { companies } = useContext(CompaniesContext);
-
+  const { companies, setSelectedCompanyId } = useContext(CompaniesContext);
+  const { departments } = useContext(DepartmentsContext);
   const navigate = useNavigate();
   const params = useParams();
 
@@ -19,6 +19,7 @@ const CompanyDetailPage = () => {
     );
     if (getCompany) {
       setCompany(getCompany);
+      setSelectedCompanyId(getCompany.id);
     } else {
       setShowModal(true);
     }
@@ -35,15 +36,28 @@ const CompanyDetailPage = () => {
             <h1 className={classes['title']}>Company name: {company.name}</h1>
           </div>
           <div className={classes['description__box']}>
-          <div className={classes['description__box']}>
-            {/* Attach the click handler to the button */}
-            <button
-              className={classes['add_department_button']}
-              onClick={handleAddDepartmentClick}
-            >
-              Add department
-            </button>
+            <div className={classes['description__box']}>
+              {/* Attach the click handler to the button */}
+              <button
+                className={classes['add_department_button']}
+                onClick={handleAddDepartmentClick}
+              >
+                Add department
+              </button>
+            </div>
           </div>
+          {/* Display departments for the current company */}
+          <div className={classes['departments__box']}>
+            <h2>Departments:</h2>
+            <ul>
+              {departments
+                .filter((dept) => dept.companyId === company.id)
+                .map((department) => (
+                  <li key={department.id}>
+                    {department.name} - {department.description}
+                  </li>
+                ))}
+            </ul>
           </div>
         </div>
       ) : (

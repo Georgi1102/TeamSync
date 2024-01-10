@@ -4,11 +4,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { randomIntFromInterval } from '../../utils/randomIdGenerator';
 import InfoModal from '../../components/modals/InfoModal/InfoModal';
 import { useContext, useState } from 'react';
-
+import CompaniesContext from '../../store/CompaniesContext/CompaniesContext';
 const AddDepartmentPage = () => {
   const [departmentName, setDepartmentName] = useState('');
   const [departmentDescription, setDepartmentDescription] = useState('');
-
+  const {selectedCompanyId } = useContext(CompaniesContext);
   const [showModal, setShowModal] = useState(false);
   const { setDepartments } = useContext(DepartmentsContext);
 
@@ -25,6 +25,7 @@ const AddDepartmentPage = () => {
 
     const newDepartment = {
       id: randomIntFromInterval(1, 10000),
+      companyId: selectedCompanyId,  
       name: departmentName,
       description: departmentDescription,
     };
@@ -32,7 +33,7 @@ const AddDepartmentPage = () => {
     setDepartments((prevDepartments) => [...prevDepartments, newDepartment]);
 
     // Use companyId to navigate to the specific company's page
-    navigate(`/${companyId}`);
+    navigate(`/${selectedCompanyId}`);
   };
 
   const onChangeHandler = (setter) => (e) => {
