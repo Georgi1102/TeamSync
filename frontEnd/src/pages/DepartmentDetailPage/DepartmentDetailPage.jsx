@@ -1,21 +1,24 @@
+import { useEffect, useState, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
 import CompaniesContext from '../../store/CompaniesContext/CompaniesContext';
-import InfoModal from '../../components/modals/InfoModal/InfoModal';
 import DepartmentsContext from '../../store/CompaniesContext/DepartmentsContext';
-import EmployeesContext from '../../store/CompaniesContext/EmployeeContext';
+import InfoModal from '../../components/modals/InfoModal/InfoModal';
 import EmployeeCard from '../../components/EmployeeCard/EmployeeCard';
 import classes from './DepartmentDetailPage.module.css';
+import { useLocation } from 'react-router-dom';
+
 
 const DepartmentDetailPage = () => {
   const [showModal, setShowModal] = useState(false);
-  const [department, setDepartment] = useState();
+  const [department, setDepartment] = useState(null);
+  const [departmentEmployees, setDepartmentEmployees] = useState([]);
   const { departments, removeDepartment, setSelectedDepartmentId } = useContext(DepartmentsContext);
-  const { employees } = useContext(EmployeesContext);
-  const {selectedCompanyId } = useContext(CompaniesContext);
+  const { selectedCompanyId } = useContext(CompaniesContext);
   const navigate = useNavigate();
   const params = useParams();
-
+  const location = useLocation();
+  const { company } = location.state;
   useEffect(() => {
     const getDepartment = departments.find(
       (department) => department.id === +params.departmentId
@@ -24,22 +27,31 @@ const DepartmentDetailPage = () => {
     if (getDepartment) {
       setDepartment(getDepartment);
       setSelectedDepartmentId(getDepartment.id);
+
+      // Fetch employees by departmentId
+      fetchDepartmentEmployees(getDepartment.id);
     } else {
       setShowModal(true);
     }
   }, [params.departmentId, departments, setSelectedDepartmentId]);
 
-  const departmentEmployees = employees.filter(
-    (employee) => employee.departmentId === department?.id
-  );
+  const fetchDepartmentEmployees = async (departmentId) => {
+    try {
+      const response = await axios.get(`https://localhost:7204/employee/get-all-employees-by-departmentid/${departmentId}`);
+      const fetchedEmployees = response.data && response.data.$values ? response.data.$values : [];
+      setDepartmentEmployees(fetchedEmployees);
+    } catch (error) {
+      console.error('Error fetching department employees:', error);
+    }
+  };
 
   const handleAddEmployeeClick = () => {
-    navigate('/addemployeepage');
+    navigate('/addemployeepage', { state: { depId: department.id, company: company } });
   };
 
   const handleDeleteDepartment = () => {
     removeDepartment(department.id);
-    navigate(`/${selectedCompanyId}`); // Adjust the route based on your application structure
+    navigate(`/${selectedCompanyId}`);
   };
 
   return (

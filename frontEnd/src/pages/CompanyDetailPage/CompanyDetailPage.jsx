@@ -1,37 +1,56 @@
+import { useEffect, useState, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import classes from './CompanyDetailPage.module.css';
-import { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
 import CompaniesContext from '../../store/CompaniesContext/CompaniesContext';
+import DepartmentsContext from '../../store/CompaniesContext/DepartmentsContext';
 import InfoModal from '../../components/modals/InfoModal/InfoModal';
-import DepartmentsContext from '../../store/CompaniesContext/DepartmentsContext';  
-
+import classes from './CompanyDetailPage.module.css';
 
 const CompanyDetailPage = () => {
   const [showModal, setShowModal] = useState(false);
-  const [company, setCompany] = useState();
-  const { companies, setSelectedCompanyId } = useContext(CompaniesContext);
-  const { departments } = useContext(DepartmentsContext);
+  const [company, setCompany] = useState(null);
+  const [companyDepartments, setCompanyDepartments] = useState([]);
+  const { companies } = useContext(CompaniesContext);
+  const {setDepartments} = useContext(DepartmentsContext);
   const navigate = useNavigate();
   const params = useParams();
 
   useEffect(() => {
-    const getCompany = companies.find(
-      (company) => company.id === +params.companyId
-    );
+    const getCompany = companies.find((c) => c.id === +params.companyId);
+
     if (getCompany) {
       setCompany(getCompany);
     } else {
       setShowModal(true);
     }
-  }, []);
+  }, [companies, params.companyId]);
+
+  useEffect(() => {
+    if (company) {
+      fetchCompanyDetails();
+    }
+  }, [company]);
+
   const handleAddDepartmentClick = () => {
-
-    navigate('/adddepartmentpage');
+    navigate('/adddepartmentpage', { state: { company: company } });
   };
+
   const handleDepartmentClick = (departmentId) => {
-
-    navigate(`/${params.companyId}/${departmentId}`);
+    navigate(`/${params.companyId}/${departmentId}`, { state: { company: company } } );
   };
+
+  const fetchCompanyDetails = async () => {
+    try {
+      const response = await axios.get(`https://localhost:7204/department/get-all-departments-by-companyid/${params.companyId}`);
+      const fetchedDepartments = response.data.$values || [];
+      setCompanyDepartments(fetchedDepartments);
+      setDepartments(fetchedDepartments);
+    } catch (error) {
+      console.error('Error fetching company details:', error);
+      setShowModal(true);
+    }
+  };
+console.log(companyDepartments);
   return (
     <>
       {company ? (
@@ -41,7 +60,6 @@ const CompanyDetailPage = () => {
           </div>
           <div className={classes['description__box']}>
             <div className={classes['description__box']}>
-
               <button
                 className={classes['add_department_button']}
                 onClick={handleAddDepartmentClick}
@@ -53,11 +71,11 @@ const CompanyDetailPage = () => {
           <div className={classes['departments__box']}>
             <h2>Departments:</h2>
             <ul>
-            {departments.map((department) => (
-              <li key={department.id} onClick={() => handleDepartmentClick(department.id)}>
-                {department.name} - {department.description}
-              </li>
-            ))}
+              {Array.isArray(companyDepartments) && companyDepartments.map((department) => (
+                <li key={department.id} onClick={() => handleDepartmentClick(department.id)}>
+                  {department.name}
+                </li>
+              ))}
             </ul>
           </div>
         </div>

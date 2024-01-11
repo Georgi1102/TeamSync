@@ -31,6 +31,20 @@ namespace TeamSync.Controllers
             }
         }
 
+        [HttpGet("get-all-departments-by-companyid/{companyId}")]
+        public async Task<ActionResult<IEnumerable<Department>>> GetAllDepartmentsByCompanyId(int companyId)
+        {
+            try
+            {
+                var departments = await _departmentService.GetAllDepartmentsByCompanyIdAsync(companyId);
+                return Ok(departments);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
         [HttpGet("get-department-by-id{departmentId}")]
         public async Task<ActionResult<Department>> GetDepartmentById(int departmentId)
         {

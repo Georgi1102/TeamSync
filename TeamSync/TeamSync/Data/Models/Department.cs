@@ -10,7 +10,5 @@
         // Navigation property for related employees
         public List<Employee> Employees { get; set; }
 
-        // Navigation property for the relationship with Company
-        public Company Company { get; set; }
     }
 }

@@ -17,8 +17,8 @@ const EmployeeCard = ({ employee }) => {
         X
       </div>
       <div className={classes.card}>
-        <h3 className={classes.title}>{employee.name}</h3>
-        <p className={classes.position}>{employee.position}</p>
+        <h3 className={classes.title}>{employee.firstName}</h3>
+        <p className={classes.position}>{employee.lastName}</p>
       </div>
     </div>
   );

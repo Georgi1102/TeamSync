@@ -8,8 +8,5 @@
         // Foreign key for the relationship with Department
         public int DepartmentId { get; set; }
 
-        // Navigation property for the relationship with Department
-        public Department Department { get; set; }
-
     }
 }

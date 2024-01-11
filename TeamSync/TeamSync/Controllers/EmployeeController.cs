@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using TeamSync.Data.Models;
 using TeamSync.Service;
 
@@ -10,9 +13,10 @@ namespace TeamSync.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly EmployeeService service;
+
         public EmployeeController(EmployeeService service)
         {
-            this.service = service;  
+            this.service = service;
         }
 
         [HttpGet]
@@ -25,6 +29,21 @@ namespace TeamSync.Controllers
             catch (Exception ex)
             {
                 // Log the exception or handle it accordingly
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpGet("get-all-employees-by-departmentid/{departmentId}")]
+        public async Task<ActionResult<IEnumerable<Employee>>> GetAllEmployeesByDepartmentId(int departmentId)
+        {
+            try
+            {
+                var employees = await service.GetAllEmployeesByDepartmentId(departmentId);
+
+                return Ok(employees);
+            }
+            catch (Exception ex)
+            {
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -81,7 +100,7 @@ namespace TeamSync.Controllers
                 }
 
                 await service.UpdateEmployeeAsync(updatedEmployee);
-                return NoContent(); 
+                return NoContent();
             }
             catch (Exception ex)
             {
@@ -98,7 +117,7 @@ namespace TeamSync.Controllers
 
                 if (existingEmployee == null)
                 {
-                    return NotFound(); 
+                    return NotFound();
                 }
 
                 await service.DeleteEmployeeAsync(employeeId);

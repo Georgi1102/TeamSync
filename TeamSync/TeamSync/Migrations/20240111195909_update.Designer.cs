@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TeamSync.Data;
 
@@ -11,9 +12,11 @@ using TeamSync.Data;
 namespace TeamSync.Migrations
 {
     [DbContext(typeof(TeamSyncDbContext))]
-    partial class TeamSyncDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240111195909_update")]
+    partial class update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -107,11 +110,13 @@ namespace TeamSync.Migrations
                         .WithMany("Employees")
                         .HasForeignKey("CompanyId");
 
-                    b.HasOne("TeamSync.Data.Models.Department", null)
+                    b.HasOne("TeamSync.Data.Models.Department", "Department")
                         .WithMany("Employees")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("TeamSync.Data.Models.Company", b =>

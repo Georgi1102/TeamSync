@@ -25,6 +25,13 @@ namespace TeamSync.Service
             return await dbContext.Departments.FindAsync(departmentId);
         }
 
+        public async Task<IEnumerable<Department>> GetAllDepartmentsByCompanyIdAsync(int companyId)
+        {
+            return await dbContext.Departments
+                .Where(d => d.CompanyId == companyId)
+                .ToListAsync();
+        }
+
         public async Task CreateDepartmentAsync(Department newDepartment)
         {
             dbContext.Departments.Add(newDepartment);

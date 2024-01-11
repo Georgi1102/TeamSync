@@ -1,4 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using TeamSync.Data;
 using TeamSync.Data.Models;
 
@@ -13,9 +16,18 @@ namespace TeamSync.Service
             this.dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<Employee>> GetAllEmployees() 
+        public async Task<IEnumerable<Employee>> GetAllEmployees()
         {
             var employees = await dbContext.Employees.ToListAsync();
+            return employees;
+        }
+
+        public async Task<IEnumerable<Employee>> GetAllEmployeesByDepartmentId(int departmentId)
+        {
+            var employees = await dbContext.Employees
+                .Where(e => e.DepartmentId == departmentId)
+                .ToListAsync();
+
             return employees;
         }
 
@@ -24,7 +36,7 @@ namespace TeamSync.Service
             try
             {
                 var employee = await dbContext.Employees
-                    .FirstOrDefaultAsync(c => c.Id == employeeId);
+                    .FirstOrDefaultAsync(e => e.Id == employeeId);
 
                 return employee;
             }
@@ -61,7 +73,5 @@ namespace TeamSync.Service
                 await dbContext.SaveChangesAsync();
             }
         }
-
-
     }
 }

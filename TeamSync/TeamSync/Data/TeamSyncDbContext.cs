@@ -17,14 +17,10 @@ namespace TeamSync.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Company>()
-                .HasMany(c => c.Departments)
-                .WithOne(d => d.Company)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasMany(c => c.Departments);
 
             modelBuilder.Entity<Department>()
-                .HasMany(d => d.Employees)
-                .WithOne(e => e.Department)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasMany(d => d.Employees);
         }
     }
 }

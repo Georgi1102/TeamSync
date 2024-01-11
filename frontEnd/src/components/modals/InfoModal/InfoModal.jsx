@@ -1,7 +1,7 @@
 import { createPortal } from 'react-dom';
 import classes from './InfoModal.module.css';
 
-const InfoModal = ({ showModal, onClose, description }) => {
+const InfoModal = ({ showModal, onClose }) => {
   return createPortal(
     showModal ? (
       <div className={classes['modal']}>
@@ -9,9 +9,6 @@ const InfoModal = ({ showModal, onClose, description }) => {
         <div className={classes['container']}>
           <div className={classes['remove']} onClick={onClose}>
             X
-          </div>
-          <div className={classes['description__box']}>
-            <p className={classes['description']}>{description}</p>
           </div>
         </div>
       </div>
