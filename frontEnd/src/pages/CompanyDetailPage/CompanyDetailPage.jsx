@@ -3,7 +3,8 @@ import classes from './CompanyDetailPage.module.css';
 import { useContext, useEffect, useState } from 'react';
 import CompaniesContext from '../../store/CompaniesContext/CompaniesContext';
 import InfoModal from '../../components/modals/InfoModal/InfoModal';
-import DepartmentsContext from '../../store/CompaniesContext/DepartmentsContext';  // Correct the import path
+import DepartmentsContext from '../../store/CompaniesContext/DepartmentsContext';  
+
 
 const CompanyDetailPage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -25,11 +26,11 @@ const CompanyDetailPage = () => {
     }
   }, []);
   const handleAddDepartmentClick = () => {
-    // Navigate to the "AddDepartmentPage" (you can change the path as needed)
+
     navigate('/adddepartmentpage');
   };
   const handleDepartmentClick = (departmentId) => {
-    // Navigate to the "Employees" page with the selected departmentId
+
     navigate(`/${params.companyId}/${departmentId}`);
   };
   return (
@@ -41,7 +42,7 @@ const CompanyDetailPage = () => {
           </div>
           <div className={classes['description__box']}>
             <div className={classes['description__box']}>
-              {/* Attach the click handler to the button */}
+
               <button
                 className={classes['add_department_button']}
                 onClick={handleAddDepartmentClick}
@@ -50,12 +51,10 @@ const CompanyDetailPage = () => {
               </button>
             </div>
           </div>
-          {/* Display departments for the current company */}
           <div className={classes['departments__box']}>
             <h2>Departments:</h2>
             <ul>
             {departments.map((department) => (
-              // Wrap each department in a clickable link
               <li key={department.id} onClick={() => handleDepartmentClick(department.id)}>
                 {department.name} - {department.description}
               </li>
