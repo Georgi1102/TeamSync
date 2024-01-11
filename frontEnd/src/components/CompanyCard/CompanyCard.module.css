@@ -1,6 +1,7 @@
 .container {
   position: relative;
   width: 80%;
+  margin: 0 auto;
 }
 
 .card {
@@ -8,11 +9,10 @@
   cursor: pointer;
   border: 2px solid #800000;
   width: 100%;
-  padding: 1rem 1rem 4.8rem 1rem;
+  padding: 1rem;
   background-color: #1e1e1e;
   color: #3d9970;
   transition: all 0.3s;
-
   box-shadow: 0 4px 8px rgba(128, 0, 0, 0.5);
 }
 
@@ -40,13 +40,13 @@
   margin-top: 3rem;
   padding: 0.5rem 4rem;
   font-weight: 500;
+  transition: all 0.3s;
 }
 
 .button:hover {
   color: #fff;
   background-color: #565454;
   border-color: white;
-  transition: all 0.3s;
 }
 
 .remove {

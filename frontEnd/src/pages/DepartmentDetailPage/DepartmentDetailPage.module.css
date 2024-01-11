@@ -16,9 +16,10 @@
   }
   
   .title {
-    font-size: 6.4rem;
+    font-size: 4.4rem;
     font-weight: 700;
   }
+
   
   .description__box {
     width: 100%;
@@ -28,13 +29,36 @@
   .description {
     font-size: 3.6rem;
   }
+  
   .add_employee_button {
-    position: absolute; 
+    position: fixed; 
     bottom: 10rem; 
     right: 10rem; 
     color: #1e1e1e;
     background-color: #3d9970;
     border-color: #3d9970;
-    width: 15%;
+    width: 10%;
     height: 5rem;
   }
+  
+  .employee_cards
+  {
+    display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  row-gap: 2rem;
+  column-gap: 0;
+  }
+  .delete_department_button
+  {
+    position: fixed; 
+    bottom: 10rem; 
+    left: 10rem; 
+    color: #1e1e1e;
+    background-color: #3d9970;
+    border-color: #3d9970;
+    width: 10%;
+    height: 5rem;
+
+  }
+
+ 
